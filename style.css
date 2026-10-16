@@ -157,6 +157,37 @@ body {
     color: #0f172a;
 }
 
+/* Theme Toggle (Icon Only) */
+.theme-toggle-btn {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.theme-toggle-btn svg {
+    position: absolute;
+}
+
+.theme-toggle-btn .icon-moon {
+    display: none;
+}
+
 /* Nav Tabs */
 .main-nav {
     display: flex;
@@ -1235,4 +1266,353 @@ body {
     .calculated-macros-preview {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+/* ==========================================================================
+   LIGHT THEME
+   Activated via <body class="light-theme"> (toggled by #theme-toggle)
+   ========================================================================== */
+body.light-theme {
+    background: radial-gradient(circle at 20% 20%, #dbeafe 0%, #eef2ff 42%, #f8fafc 100%);
+    background-attachment: fixed;
+    color: #0f172a;
+}
+
+body.light-theme .app-header {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.15);
+}
+
+body.light-theme .brand-text h1 {
+    color: #0f172a;
+}
+
+body.light-theme .brand-text .tagline {
+    color: #64748b;
+}
+
+body.light-theme .date-navigator {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme .date-label {
+    color: #334155;
+}
+
+body.light-theme .icon-btn {
+    color: #64748b;
+}
+
+body.light-theme .icon-btn:hover {
+    background: rgba(15, 23, 42, 0.06);
+    color: #0f172a;
+}
+
+body.light-theme .main-nav {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme .nav-tab {
+    color: #64748b;
+}
+
+body.light-theme .nav-tab:hover {
+    color: #0f172a;
+    background: rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .nav-tab.active {
+    color: #ffffff;
+}
+
+/* Theme toggle in light mode */
+body.light-theme .theme-toggle-btn {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #64748b;
+}
+
+body.light-theme .theme-toggle-btn:hover {
+    background: rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.2);
+    color: #0f172a;
+}
+
+body.light-theme .theme-toggle-btn .icon-sun {
+    display: none;
+}
+
+body.light-theme .theme-toggle-btn .icon-moon {
+    display: block;
+}
+
+/* Cards */
+body.light-theme .glass-card {
+    background: rgba(255, 255, 255, 0.78);
+    border-color: rgba(15, 23, 42, 0.08);
+    box-shadow: 0 10px 30px -12px rgba(15, 23, 42, 0.15);
+}
+
+body.light-theme .glass-card:hover {
+    border-color: rgba(15, 23, 42, 0.15);
+}
+
+body.light-theme .card-header h2,
+body.light-theme .card-header h3 {
+    color: #0f172a;
+}
+
+body.light-theme .text-btn {
+    color: #059669;
+}
+
+body.light-theme .header-badge {
+    color: #0284c7;
+    border-color: rgba(2, 132, 199, 0.3);
+}
+
+body.light-theme .pill-btn {
+    color: #059669;
+    border-color: rgba(5, 150, 105, 0.35);
+}
+
+/* Calorie overview ring & stats */
+body.light-theme .ring-bg {
+    stroke: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .ring-value {
+    color: #0f172a;
+}
+
+body.light-theme .ring-subtext {
+    color: #64748b;
+}
+
+body.light-theme .overview-stats {
+    background: rgba(15, 23, 42, 0.04);
+    border-color: rgba(15, 23, 42, 0.06);
+}
+
+body.light-theme .stat-label {
+    color: #64748b;
+}
+
+body.light-theme .stat-num {
+    color: #0f172a;
+}
+
+body.light-theme .stat-unit {
+    color: #94a3b8;
+}
+
+body.light-theme .stat-divider {
+    background: rgba(15, 23, 42, 0.12);
+}
+
+/* Macros */
+body.light-theme .macro-title strong {
+    color: #0f172a;
+}
+
+body.light-theme .macro-values {
+    color: #64748b;
+}
+
+body.light-theme .progress-track {
+    background: rgba(15, 23, 42, 0.08);
+    border-color: rgba(15, 23, 42, 0.05);
+}
+
+/* Water / exercise inputs */
+body.light-theme .water-btn.outline {
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #64748b;
+}
+
+body.light-theme .water-btn.outline:hover {
+    background: rgba(15, 23, 42, 0.06);
+    color: #0f172a;
+}
+
+body.light-theme .inline-form input {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+/* Meals */
+body.light-theme .meal-card-header {
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .meal-title-group h4 {
+    color: #0f172a;
+}
+
+body.light-theme .food-item-row {
+    background: rgba(15, 23, 42, 0.03);
+    border-color: rgba(15, 23, 42, 0.06);
+}
+
+body.light-theme .food-item-row:hover {
+    background: rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.12);
+}
+
+body.light-theme .food-item-name {
+    color: #1e293b;
+}
+
+body.light-theme .food-item-sub {
+    color: #64748b;
+}
+
+/* Analytics */
+body.light-theme .analytics-header h2 {
+    color: #0f172a;
+}
+
+body.light-theme .highlight-item {
+    background: rgba(15, 23, 42, 0.03);
+    border-color: rgba(15, 23, 42, 0.06);
+}
+
+body.light-theme .item-title {
+    color: #64748b;
+}
+
+body.light-theme .item-value {
+    color: #0f172a;
+}
+
+/* Forms, buttons & tables */
+body.light-theme .form-group label {
+    color: #475569;
+}
+
+body.light-theme .form-group input,
+body.light-theme .form-group select {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #0f172a;
+}
+
+body.light-theme .calc-results-box {
+    background: rgba(15, 23, 42, 0.03);
+    border-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .calc-result-row.total {
+    border-top-color: rgba(15, 23, 42, 0.1);
+    color: #0f172a;
+}
+
+body.light-theme .secondary-btn {
+    background: rgba(15, 23, 42, 0.05);
+    border-color: rgba(15, 23, 42, 0.12);
+    color: #1e293b;
+}
+
+body.light-theme .secondary-btn:hover {
+    background: rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme .data-table th {
+    background: rgba(15, 23, 42, 0.04);
+    color: #475569;
+    border-bottom-color: rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme .data-table td {
+    color: #334155;
+    border-bottom-color: rgba(15, 23, 42, 0.06);
+}
+
+body.light-theme .data-table tr:hover td {
+    background: rgba(15, 23, 42, 0.03);
+}
+
+/* Dialogs & modal */
+body.light-theme .dialog-content {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.1);
+    color: #0f172a;
+}
+
+body.light-theme .dialog-header {
+    border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+body.light-theme .dialog-close-btn {
+    color: #64748b;
+}
+
+body.light-theme .dialog-close-btn:hover {
+    color: #0f172a;
+}
+
+body.light-theme .modal-subtabs {
+    background: rgba(15, 23, 42, 0.05);
+}
+
+body.light-theme .modal-tab {
+    color: #64748b;
+}
+
+body.light-theme .modal-tab.active {
+    background: rgba(15, 23, 42, 0.08);
+    color: #0f172a;
+}
+
+body.light-theme .search-bar-box {
+    background: #ffffff;
+    border-color: rgba(15, 23, 42, 0.15);
+    color: #94a3b8;
+}
+
+body.light-theme .search-bar-box input {
+    color: #0f172a;
+}
+
+body.light-theme .preset-item {
+    background: rgba(15, 23, 42, 0.03);
+}
+
+body.light-theme .preset-item:hover,
+body.light-theme .preset-item.selected {
+    background: rgba(16, 185, 129, 0.12);
+}
+
+body.light-theme .preset-name {
+    color: #1e293b;
+}
+
+body.light-theme .preset-sub {
+    color: #64748b;
+}
+
+body.light-theme .selected-food-box {
+    background: rgba(15, 23, 42, 0.03);
+    border-color: rgba(16, 185, 129, 0.35);
+}
+
+body.light-theme .selected-food-box h4 {
+    color: #0f172a;
+}
+
+body.light-theme .sel-food-meta {
+    color: #64748b;
+}
+
+body.light-theme .unit-tag {
+    background: rgba(15, 23, 42, 0.06);
+    color: #475569;
+}
+
+body.light-theme .calculated-macros-preview {
+    background: rgba(15, 23, 42, 0.04);
 }

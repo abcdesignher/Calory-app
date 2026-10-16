@@ -41,7 +41,8 @@ const STORAGE_KEYS = {
     GOALS: 'nutripulse_user_goals',
     LOGS: 'nutripulse_daily_logs',
     CUSTOM_FOODS: 'nutripulse_custom_foods',
-    WEIGHT: 'nutripulse_weight_logs'
+    WEIGHT: 'nutripulse_weight_logs',
+    THEME: 'nutripulse_theme'
 };
 
 const DEFAULT_GOALS = {
@@ -152,10 +153,15 @@ const StorageManager = {
 // 3. CANVAS CHART RENDERER (Zero Dependencies)
 // ==========================================================================
 const ChartRenderer = {
+    isLightTheme() {
+        return document.body.classList.contains('light-theme');
+    },
+
     render7DayTrend(canvas, logsMap, goals) {
         const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
+        const light = this.isLightTheme();
         ctx.clearRect(0, 0, width, height);
 
         // Get past 7 days dates
@@ -186,7 +192,7 @@ const ChartRenderer = {
         maxKcal = Math.ceil((maxKcal * 1.15) / 500) * 500; // grid rounding
 
         // Draw background grid
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.strokeStyle = light ? 'rgba(15, 23, 42, 0.1)' : 'rgba(255, 255, 255, 0.08)';
         ctx.lineWidth = 1;
         const gridSteps = 4;
         for (let i = 0; i <= gridSteps; i++) {
@@ -260,7 +266,7 @@ const ChartRenderer = {
             // Date label
             const dObj = new Date(dateStr + 'T00:00:00');
             const dayLabel = dObj.toLocaleDateString('en-US', { weekday: 'short' });
-            ctx.fillStyle = '#94a3b8';
+            ctx.fillStyle = light ? '#475569' : '#94a3b8';
             ctx.font = '11px Plus Jakarta Sans, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(dayLabel, x + barWidth / 2, height - 12);
@@ -271,6 +277,7 @@ const ChartRenderer = {
         const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
+        const light = this.isLightTheme();
         ctx.clearRect(0, 0, width, height);
 
         const pKcal = proteinG * 4;
@@ -284,7 +291,7 @@ const ChartRenderer = {
         const innerRadius = 52;
 
         if (totalKcal === 0) {
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+            ctx.fillStyle = light ? 'rgba(15, 23, 42, 0.08)' : 'rgba(255, 255, 255, 0.08)';
             ctx.beginPath();
             ctx.arc(centerX, centerY, outerRadius, 0, Math.PI * 2);
             ctx.fill();
@@ -318,11 +325,11 @@ const ChartRenderer = {
         });
 
         // Inner Text
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = light ? '#0f172a' : '#ffffff';
         ctx.font = 'bold 16px Plus Jakarta Sans, sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(`${Math.round(totalKcal)}`, centerX, centerY);
-        ctx.fillStyle = '#94a3b8';
+        ctx.fillStyle = light ? '#64748b' : '#94a3b8';
         ctx.font = '10px Plus Jakarta Sans, sans-serif';
         ctx.fillText('total kcal', centerX, centerY + 14);
 
@@ -338,7 +345,7 @@ const ChartRenderer = {
             ctx.arc(x - 22, legendY, 5, 0, Math.PI * 2);
             ctx.fill();
 
-            ctx.fillStyle = '#e2e8f0';
+            ctx.fillStyle = light ? '#334155' : '#e2e8f0';
             ctx.font = '11px Plus Jakarta Sans, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText(`${seg.label} ${pct}%`, x - 14, legendY + 4);
@@ -349,6 +356,7 @@ const ChartRenderer = {
         const ctx = canvas.getContext('2d');
         const width = canvas.width;
         const height = canvas.height;
+        const light = this.isLightTheme();
         ctx.clearRect(0, 0, width, height);
 
         if (!weightLogs || weightLogs.length === 0) {
@@ -376,7 +384,7 @@ const ChartRenderer = {
         }
 
         // Grid lines
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        ctx.strokeStyle = light ? 'rgba(15, 23, 42, 0.1)' : 'rgba(255, 255, 255, 0.08)';
         ctx.lineWidth = 1;
         const steps = 4;
         for (let i = 0; i <= steps; i++) {
@@ -425,7 +433,7 @@ const ChartRenderer = {
 
         // Draw Circles
         pts.forEach(p => {
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = light ? '#ffffff' : '#0f172a';
             ctx.strokeStyle = '#38bdf8';
             ctx.lineWidth = 2.5;
             ctx.beginPath();
@@ -433,7 +441,7 @@ const ChartRenderer = {
             ctx.fill();
             ctx.stroke();
 
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = light ? '#0f172a' : '#ffffff';
             ctx.font = 'bold 10px Plus Jakarta Sans, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(`${p.weight}kg`, p.x, p.y - 10);
@@ -449,9 +457,11 @@ class CalorieApp {
         this.selectedDate = new Date().toISOString().slice(0, 10);
         this.activeTab = 'dashboard';
         this.selectedFoodForAdd = null;
+        this.theme = localStorage.getItem(STORAGE_KEYS.THEME) || 'dark';
 
         this.initDOM();
         this.bindEvents();
+        this.applyTheme(this.theme);
         this.renderAll();
     }
 
@@ -466,6 +476,9 @@ class CalorieApp {
         // Navigation Tabs
         this.navTabs = document.querySelectorAll('.nav-tab');
         this.tabContents = document.querySelectorAll('.tab-content');
+
+        // Theme Toggle
+        this.themeToggleBtn = document.getElementById('theme-toggle');
 
         // Modal
         this.addFoodModal = document.getElementById('modal-add-food');
@@ -673,6 +686,23 @@ class CalorieApp {
                 this.renderAll();
             }
         });
+
+        // Theme Toggle
+        this.themeToggleBtn.addEventListener('click', () => this.toggleTheme());
+    }
+
+    applyTheme(theme) {
+        this.theme = theme;
+        document.body.classList.toggle('light-theme', theme === 'light');
+        localStorage.setItem(STORAGE_KEYS.THEME, theme);
+
+        // Redraw canvases so chart colors match the active theme
+        if (this.activeTab === 'analytics') this.renderAnalyticsTab();
+        if (this.activeTab === 'weight') this.renderWeightTab();
+    }
+
+    toggleTheme() {
+        this.applyTheme(this.theme === 'light' ? 'dark' : 'light');
     }
 
     changeDate(offsetDays) {
